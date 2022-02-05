@@ -1,0 +1,90 @@
+<h2 class="form-header">
+    Register New Employee
+</h2>
+
+
+<div class="container">
+  <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" #userRegistrationForm="ngForm" (ngSubmit)="OnSubmit(); userRegistrationForm.reset();">
+
+    <div class="row">
+      <div class="form-group">
+            <label>Employee Number</label>
+        <input type="text" name="emp_ID" #emp_ID="ngModel" [(ngModel)]="user.emp_ID">
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group">
+            <label>Department/ Role</label>
+        <input type="text" name="emp_type" #emp_type="ngModel" [(ngModel)]="user.emp_type">
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group">
+            <label data-error="Required field!">UserName</label>
+        <input class="validate" type="text" name="username" #username="ngModel" [(ngModel)]="user.username" required>
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group">
+            <label [attr.data-error]="password.errors!=null?(password.errors.required?'Required field!':'Minimum 6 characters needed'):''">Password</label>
+       
+            <input class="validate" type="password" name="password" #password="ngModel" [(ngModel)]="user.password" required minlength="6">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+            <label data-error="Invalid email!">Email</label>
+        <input class="validate" type="email" name="email" #email="ngModel" [(ngModel)]="user.email" [pattern]="emailPattern">
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group">
+            <label>First Name</label>
+        <input type="text" name="firstname" #firstname="ngModel" [(ngModel)]="user.firstname">
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group">
+            <label>Last Name</label>
+        <input type="text" name="lastname" #lastname="ngModel" [(ngModel)]="user.lastname">
+       
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group">
+            <label>Address</label>
+        <input type="text" name="address" #address="ngModel" [(ngModel)]="user.address">
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group">
+            <label>Contact Number</label>
+        <input class="validate" type="number" name="phone" #phone="ngModel" [(ngModel)]="user.phone">
+       
+      </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <clr-checkbox
+                    name="isAdminCheckbox"
+                    id="isAdminCheckbox"
+                    [(ngModel)]="isAdmin"
+                    (change)="checkboxChanged()">
+                Grant Admin privileges
+            </clr-checkbox>
+        </div>
+      </div>
+    <div class="row clr-justify-content-start">
+      <div class="input-field col s12">
+        <button [disabled]="!userRegistrationForm.valid" class="btn btn-primary" type="submit">Register</button>
+      </div>
+    </div>
+  </form>
+</div>

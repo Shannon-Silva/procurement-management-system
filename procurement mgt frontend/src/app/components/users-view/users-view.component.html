@@ -1,0 +1,163 @@
+<h2 class="form-header">
+    Users database
+</h2>
+<!-- Loading spinner -->
+<div style="text-align: center" *ngIf="!applicationUsers">
+  <span style="display: inline-block" class="spinner spinner-md">
+    Loading...
+  </span>
+</div>
+<!-- End Loading spinner -->
+ 
+<!-- Edit Modal -->
+<clr-modal [(clrModalOpen)]="modalOpened">
+    <h3 class="modal-title">Edit User Details</h3>
+    <div class="modal-body">
+        <form #usersForm="ngForm" (ngSubmit)="onSubmitEdited()" class="clr-form clr-form-horizontal">
+            <section class="form-block">
+                <div class="form-group">
+                    <label for="firstname">First Name</label>
+                    <label for="firstname"
+                        aria-haspopup="true"
+                        role="tooltip"
+                        class="tooltip tooltip-validation tooltip-md"
+                        [class.invalid]="firstnameInput.invalid && (firstnameInput.dirty || firstnameInput.touched)">
+                        <input type="text" id="firstname" placeholder="Enter First name"
+                            required
+                            name="firstname"
+                            [(ngModel)]="model.firstname"
+                            [ngModelOptions]="{standalone: true}"
+                            #firstnameInput="ngModel">
+                        <span class="tooltip-content">
+                            First Name is Required.
+                        </span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">Last Name</label>
+                    <label for="lastname"
+                        aria-haspopup="true"
+                        role="tooltip"
+                        class="tooltip tooltip-validation tooltip-md"
+                        [class.invalid]="lastnameInput.invalid && (lastnameInput.dirty || lastnameInput.touched)">
+                        <input type="text" id="lastname" placeholder="Enter last name"
+                            required
+                            name="lastname"
+                            [(ngModel)]="model.lastname"
+                            [ngModelOptions]="{standalone: true}"
+                            #lastnameInput="ngModel">
+                        <span class="tooltip-content">
+                            Last Name is Required.
+                        </span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <label for="address"
+                        aria-haspopup="true"
+                        role="tooltip"
+                        class="tooltip tooltip-validation tooltip-md"
+                        [class.invalid]="addressInput.invalid && (addressInput.dirty || addressInput.touched)">
+                        <input type="text" id="address" placeholder="Enter Address"
+                            required
+                            name="address"
+                            [(ngModel)]="model.address"
+                            [ngModelOptions]="{standalone: true}"
+                            #addressInput="ngModel">
+                        <span class="tooltip-content">
+                            Address is Required.
+                        </span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Contact</label>
+                    <label for="phone"
+                        aria-haspopup="true"
+                        role="tooltip"
+                        class="tooltip tooltip-validation tooltip-md"
+                        [class.invalid]="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)">
+                        <input type="number" id="phone" placeholder="Enter Contact number"
+                            required
+                            pattern="[0-9]{10}"
+                            name="phone"
+                            (keydown)="validateNumberKeyPress($event)"
+                            [(ngModel)]="model.phone"
+                            [ngModelOptions]="{standalone: true}"
+                            #phoneInput="ngModel">  
+                        <span class="tooltip-content" *ngIf="phoneInput.hasError('required')">
+                            Contact number is Required and must include only number
+                        </span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <label for="email"
+                        aria-haspopup="true"
+                        role="tooltip"
+                        class="tooltip tooltip-validation tooltip-md"
+                        [class.invalid]="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+                        <input type="email" id="email" placeholder="Enter Email Address"
+                            required
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                            name="email"
+                            [(ngModel)]="model.email"
+                            [ngModelOptions]="{standalone: true}"
+                            #emailInput="ngModel">  
+                        <span class="tooltip-content" *ngIf="emailInput.hasError('required')">
+                            Email Address is required and must be Valid
+                        </span>
+                    </label>
+                </div>
+                
+                
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" (click)="modalOpened = false">Cancel</button>
+                    <button type="submit" class="btn btn-success" [disabled]="!usersForm.form.valid">Submit</button>
+                </div>
+            </section>
+        </form>
+    </div>
+</clr-modal>
+<!-- End Modal -->
+
+<!-- Datagrid -->
+<clr-datagrid *ngIf="applicationUsers" [(clrDgSelected)]="selected" [clDgRowSelection]="true">
+
+    <clr-dg-action-bar>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onDelete()" [disabled]="selected.length == 0">
+              <clr-icon shape="close"></clr-icon> Delete
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
+        </div>
+    </clr-dg-action-bar>
+
+  <clr-dg-column class="width2">Employee ID</clr-dg-column>
+  <clr-dg-column>Username</clr-dg-column>
+  <clr-dg-column>Employee Type</clr-dg-column>
+  <clr-dg-column>First Name</clr-dg-column>
+  <clr-dg-column>Last Name</clr-dg-column>
+  <clr-dg-column>Email</clr-dg-column>
+  <clr-dg-column>Contact</clr-dg-column>
+  <clr-dg-column>Created Date</clr-dg-column>
+  <clr-dg-column>Modified Date</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let user of applicationUsers" [clrDgItem]="user">
+    <clr-dg-cell class="width2">{{user.emp_ID}}</clr-dg-cell>
+    <clr-dg-cell>{{user.username}}</clr-dg-cell>
+    <clr-dg-cell>{{user.emp_type}}</clr-dg-cell>
+    <clr-dg-cell>{{user.firstname}}</clr-dg-cell>
+    <clr-dg-cell>{{user.lastname}}</clr-dg-cell>
+    <clr-dg-cell>{{user.email}}</clr-dg-cell>
+    <clr-dg-cell>{{user.phone}}</clr-dg-cell>
+    <clr-dg-cell>{{user.createdDate}}</clr-dg-cell>
+    <clr-dg-cell>{{user.modifiedDate}}</clr-dg-cell>
+  </clr-dg-row>
+  <clr-dg-footer>{{applicationUsers.length}} users</clr-dg-footer>
+</clr-datagrid>
+<!-- End Datagrid -->

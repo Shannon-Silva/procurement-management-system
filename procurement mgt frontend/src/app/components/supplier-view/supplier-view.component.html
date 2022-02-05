@@ -1,0 +1,122 @@
+<h2 class="form-header">
+  Supplier database
+</h2>
+
+<!-- Loading spinner -->
+<div style="text-align: center" *ngIf="!suppliers">
+  <span style="display: inline-block" class="spinner spinner-md">
+    Loading...
+  </span>
+</div>
+<!-- End Loading spinner -->
+<!-- Edit Modal -->
+<clr-modal [(clrModalOpen)]="modalOpened">
+  <h3 class="modal-title">Edit supplier Details</h3>
+  <div class="modal-body">
+      <form #supplierForm="ngForm" (ngSubmit)="onSubmitEdited()" class="clr-form clr-form-horizontal">
+          <section class="form-block">
+              <div class="form-group">
+                  <label for="supplierName">Supplier Name</label>
+                  <label for="supplierName"
+                      aria-haspopup="true"
+                      role="tooltip"
+                      class="tooltip tooltip-validation tooltip-md"
+                      [class.invalid]="supplierNameInput.invalid && (supplierNameInput.dirty || supplierNameInput.touched)">
+                      <input type="text" id="suppliername" placeholder="Enter supplier name"
+                          required
+                          name="suppliername"
+                          [(ngModel)]="model.supplierName"
+                          #supplierNameInput="ngModel">
+                      <span class="tooltip-content">
+                          Supplier Name is Required.
+                      </span>
+                  </label>
+              </div>
+              <div class="form-group">
+                  <label for="email">Email</label>
+                  <label for="email"
+                      aria-haspopup="true"
+                      role="tooltip"
+                      class="tooltip tooltip-validation tooltip-md"
+                      [class.invalid]="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+                      <input type="text" id="email" placeholder="Enter email"
+                          required
+                          name="email"
+                          [(ngModel)]="model.email"
+                          #emailInput="ngModel">  
+                      <span class="tooltip-content" *ngIf="emailInput.hasError('required')">
+                          please enter a valid email address
+                      </span>
+                  </label>
+              </div>
+              <div class="form-group">
+                <label for="contactNumber">contact number</label>
+                <label for="contactNumber"
+                    aria-haspopup="true"
+                    role="tooltip"
+                    class="tooltip tooltip-validation tooltip-md"
+                    [class.invalid]="contactNumberInput.invalid && (contactNumberInput.dirty || contactNumberInput.touched)">
+                    <input type="text" id="contactNumber" placeholder="Enter contact number"
+                        required
+                        name="contactNumberInput"
+                        [(ngModel)]="model.contactNumber"
+                        #contactNumberInput="ngModel">  
+                    <span class="tooltip-content" *ngIf="contactNumberInput.hasError('required')">
+                        please enter a valid  contact number
+                    </span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <label for="address"
+                    aria-haspopup="true"
+                    role="tooltip"
+                    class="tooltip tooltip-validation tooltip-md"
+                    [class.invalid]="addressInput.invalid && (addressInput.dirty || addressInput.touched)">
+                    <input type="text" id="addressInput" placeholder="Enter address"
+                        required
+                        name="addressInput"
+                        [(ngModel)]="model.address"
+                        #addressInput="ngModel">  
+                    <span class="tooltip-content">
+                        please enter a valid  address
+                    </span>
+                </label>
+            </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-outline" (click)="modalOpened = false">Cancel</button>
+                  <button type="submit" class="btn btn-success" [disabled]="!supplierForm.form.valid">Submit</button>
+              </div>
+          </section>
+      </form>
+  </div>
+</clr-modal>
+<!-- End Modal -->
+<!-- Datagrid -->
+<clr-datagrid *ngIf="suppliers" [(clrDgSelected)]="selected" [clDgRowSelection]="true">
+
+    <clr-dg-action-bar>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onDelete()" [disabled]="selected.length == 0">
+              <clr-icon shape="close"></clr-icon> Delete
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
+        </div>
+    </clr-dg-action-bar>
+
+  <clr-dg-column class="width1">Supplier ID</clr-dg-column>
+  <clr-dg-column>Supplier Name</clr-dg-column>
+  <clr-dg-column>Supplier Email</clr-dg-column>
+  <clr-dg-column>Supplier contact number</clr-dg-column>
+  <clr-dg-column>Supplier address</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let supplier of suppliers" [clrDgItem]="supplier">
+    <clr-dg-cell class="width1">{{supplier._id}}</clr-dg-cell>
+    <clr-dg-cell>{{supplier.supplierName| uppercase}}</clr-dg-cell>
+    <clr-dg-cell>{{supplier.email}}</clr-dg-cell>
+    <clr-dg-cell>{{supplier.contactNumber}}</clr-dg-cell>
+    <clr-dg-cell>{{supplier.address}}</clr-dg-cell>
+  </clr-dg-row>
+  <clr-dg-footer>{{suppliers.length}} suppliers</clr-dg-footer>
+</clr-datagrid>
+<!-- End Datagrid -->

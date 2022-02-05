@@ -1,0 +1,18 @@
+.homeclass {
+    height: 100%;
+    overflow: hidden;
+}
+
+.width1 {
+    width: 25%;
+    min-width: 20%;
+}
+
+.width2 {
+    width: 10%;
+    min-width: 10%;
+}
+
+.text-align-center {
+    text-align: center;
+}

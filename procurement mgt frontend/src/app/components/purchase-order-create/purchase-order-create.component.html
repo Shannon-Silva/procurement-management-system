@@ -1,0 +1,119 @@
+<h2 class="form-header">
+    Approved Purchase Requests
+</h2>
+<!-- Loading spinner -->
+<div style="text-align: center" *ngIf="!approvedRequests">
+    <span style="display: inline-block" class="spinner spinner-md">
+        Loading...
+    </span>
+</div>
+<!-- End Loading spinner -->
+
+<!-- Wizard -->
+
+<clr-wizard #wizardlg [(clrWizardOpen)]="lgOpen" (clrWizardOnFinish)="doFinish()" (clrWizardOnCancel)="resetAll()" clrWizardSize="lg">
+    <clr-wizard-title>Create Purchase Order</clr-wizard-title>
+
+    <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+    <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+    <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+    <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+
+    <clr-wizard-page [clrWizardPageNextDisabled]="!formPage.valid">
+        <ng-template clrPageTitle>Select Supplier</ng-template>
+        <form #formPage="ngForm">
+            <section class="form-block">
+                <label style="margin-top: 2rem">To proceed, First select a supplier from the dropdown list</label>
+                <div class="form-group">
+                    <label for="supplierSelector">Select a supplier</label>
+                    <div class="select">
+                        <select required id="itemSupplierSelector" name="supplierSelector" [(ngModel)]="selectedSupplier">
+                            <option *ngFor="let supplier of suppliers" [ngValue]="supplier">{{supplier.supplierName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </clr-wizard-page>
+
+    <clr-wizard-page (clrWizardPageNext)="createTempOrder()">
+        <ng-template clrPageTitle>Add Order Items</ng-template>
+        <form>
+            <section class="form-block">
+                <label>Select order items to include in the Purchase order</label>
+            </section>
+        </form>
+        <p>Supplier : {{selectedSupplier.supplierName}}</p>
+        <dual-list [source]="dualSelectionList1" [key]="key" [display]="display" [(destination)]="confirmedItems"></dual-list>
+    </clr-wizard-page>
+
+    <clr-wizard-page #lastPage>
+        <ng-template clrPageTitle>Confirm Order</ng-template>
+        <h4><span style="font-weight: bold">Supplier : </span>{{selectedSupplier.supplierName}}</h4>
+        <h4><span style="font-weight: bold">Order Total : </span>{{purchaseOrderModel.totalPrice}}</h4>
+        <h4><span style="font-weight: bold">Line Items</span></h4>
+        <table class="table" style="margin-top: 0.2rem;">
+            <thead>
+                <tr>
+                    <th class="left">Item Name</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let orderItem of purchaseOrderModel.orderItems">
+                    <td class="left">{{orderItem.item.itemName}}</td>
+                    <td>{{orderItem.quantity}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </clr-wizard-page>
+</clr-wizard>
+
+
+<!-- End Wizard -->
+
+<!-- Datagrid -->
+
+<clr-datagrid *ngIf="approvedRequests" [(clrDgSingleSelected)]="selectedRequest" [clDgRowSelection]="true">
+
+    <clr-dg-action-bar>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="openOrderWizard()" [disabled]="!selectedRequest">
+                <clr-icon shape="checkbox-list"></clr-icon> Create Order
+            </button>
+        </div>
+    </clr-dg-action-bar>
+
+    <clr-dg-column class="width1">Request ID</clr-dg-column>
+    <clr-dg-column>Requested by</clr-dg-column>
+    <clr-dg-column>Request Status</clr-dg-column>
+    <clr-dg-column>Created on</clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let request of approvedRequests" [clrDgItem]="request">
+        <clr-dg-cell class="width1">{{request.id}}</clr-dg-cell>
+        <clr-dg-cell>{{request.requestedBy}}</clr-dg-cell>
+        <clr-dg-cell>{{request.requestStatus | uppercase }}</clr-dg-cell>
+        <clr-dg-cell>{{request.createdOn}}</clr-dg-cell>
+
+        <clr-dg-row-detail *clrIfExpanded>
+            <table class="table table-compact" style="margin-left: -7%;">
+                <thead>
+                    <tr>
+                        <th class="left">Line Item</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lineItem of request.requestLineItems" [hidden]="lineItem.pocreated != false">
+                        <td class="left">{{lineItem.item.itemName}}</td>
+                        <td>{{lineItem.quantity}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </clr-dg-row-detail>
+    </clr-dg-row>
+
+    <clr-dg-footer>{{approvedRequests.length}} requests</clr-dg-footer>
+</clr-datagrid>
+
+<!-- End Datagrid -->

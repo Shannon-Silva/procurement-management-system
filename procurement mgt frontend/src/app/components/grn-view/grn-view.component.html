@@ -1,0 +1,61 @@
+<h2 class="form-header">
+  Goods Received Notes
+</h2>
+<!-- Loading spinner -->
+<div style="text-align: center" *ngIf="!goodsReceivedNotes">
+  <span style="display: inline-block" class="spinner spinner-md">
+    Loading...
+  </span>
+</div>
+<!-- End Loading spinner -->
+<!-- Datagrid -->
+<clr-datagrid *ngIf="goodsReceivedNotes" [(clrDgSingleSelected)]="selectedGrn" [clDgRowSelection]="true">
+
+  <!-- <clr-dg-action-bar>
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-secondary" (click)="makePayment()" [disabled]="!selectedGrn">
+        <clr-icon shape="checkbox-list"></clr-icon> Make Payment
+      </button>
+    </div>
+  </clr-dg-action-bar> -->
+
+  <clr-dg-column>Order ID</clr-dg-column>
+  <clr-dg-column>Supplier</clr-dg-column>
+  <clr-dg-column>Payment Status</clr-dg-column>
+  <clr-dg-column>Received on</clr-dg-column>
+  <clr-dg-column>Order Total</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let grn of goodsReceivedNotes" [clrDgItem]="grn">
+    <clr-dg-cell>{{grn._id}}</clr-dg-cell>
+    <clr-dg-cell>{{grn.supplier.supplierName}}</clr-dg-cell>
+    <clr-dg-cell>{{grn.paymentStatus | uppercase }}</clr-dg-cell>
+    <clr-dg-cell>{{grn.recievedOn}}</clr-dg-cell>
+    <clr-dg-cell>Rs.{{grn.totalPrice}}</clr-dg-cell>
+
+    <clr-dg-row-detail *clrIfExpanded>
+      <table class="table table-compact" style="margin-left: -3%;">
+        <thead>
+          <tr>
+            <th class="left">Line Item</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lineItem of grn.grnItems">
+            <td class="left">{{lineItem.item.itemName}}</td>
+            <td>{{lineItem.quantity}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </clr-dg-row-detail>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{goodsReceivedNotes.length}} grns {{selectedGrn}}</clr-dg-footer>
+</clr-datagrid>
+
+<!-- End Datagrid -->
+<label for="">Total :</label>
+Rs.<input type="number" [(ngModel)]="finalAmount" style="padding-bottom: 10px;" value="{{selectedGrn.totalPrice}}">
+
+      <!-- <p *ngIf="paypalLoad">Paypal button is loading</p> -->
+      <div id="paypal-checkout-btn" (click)="makePayment()"></div>  

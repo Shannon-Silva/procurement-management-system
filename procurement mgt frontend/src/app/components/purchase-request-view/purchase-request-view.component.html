@@ -1,0 +1,57 @@
+<h2 class="form-header">
+    Purchase Requests
+</h2>
+<!-- Loading spinner -->
+<div style="text-align: center" *ngIf="!requests">
+  <span style="display: inline-block" class="spinner spinner-md">
+    Loading...
+  </span>
+</div>
+<!-- End Loading spinner -->
+
+<!-- Datagrid -->
+<clr-datagrid *ngIf="requests" [(clrDgSelected)]="selected" [clDgRowSelection]="true">
+
+    <clr-dg-action-bar>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onDelete()" [disabled]="selected.length == 0">
+              <clr-icon shape="close"></clr-icon> Delete
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onApprove()" [disabled]="selected.length == 0">
+                <clr-icon shape="check"></clr-icon> Approve
+            </button>
+        </div>
+    </clr-dg-action-bar>
+
+  <clr-dg-column class="width1">Request ID</clr-dg-column>
+  <clr-dg-column>Requested by</clr-dg-column>
+  <clr-dg-column>Request Status</clr-dg-column>
+  <clr-dg-column>Created on</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let request of requests" [clrDgItem]="request">
+    <clr-dg-cell class="width1">{{request.id}}</clr-dg-cell>
+    <clr-dg-cell>{{request.requestedBy}}</clr-dg-cell>
+    <clr-dg-cell>{{request.requestStatus | uppercase }}</clr-dg-cell>
+    <clr-dg-cell>{{request.createdOn}}</clr-dg-cell>
+
+    <clr-dg-row-detail *clrIfExpanded>
+        <table class="table table-compact">
+            <thead>
+                <tr>
+                    <th class="left">Line Item</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of request.requestLineItems" >
+                    <td class="left">{{item.item.itemName}}</td>
+                  <td>{{item.quantity}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </clr-dg-row-detail>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{requests.length}} requests</clr-dg-footer>
+</clr-datagrid>
+<!-- End Datagrid -->

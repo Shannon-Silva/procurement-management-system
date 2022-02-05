@@ -1,0 +1,97 @@
+<h2 class="form-header">
+    Item database
+</h2>
+<!-- Loading spinner -->
+<div style="text-align: center" *ngIf="!items">
+  <span style="display: inline-block" class="spinner spinner-md">
+    Loading...
+  </span>
+</div>
+<!-- End Loading spinner -->
+
+<!-- Edit Modal -->
+<clr-modal [(clrModalOpen)]="modalOpened">
+    <h3 class="modal-title">Edit Item Details</h3>
+    <div class="modal-body">
+        <form #itemForm="ngForm" (ngSubmit)="onSubmitEdited()" class="clr-form clr-form-horizontal">
+            <section class="form-block">
+                <div class="form-group">
+                    <label for="itemname">Item Name</label>
+                    <label for="itemname"
+                        aria-haspopup="true"
+                        role="tooltip"
+                        class="tooltip tooltip-validation tooltip-md"
+                        [class.invalid]="itemNameInput.invalid && (itemNameInput.dirty || itemNameInput.touched)">
+                        <input type="text" id="itemname" placeholder="Enter item name"
+                            required
+                            name="itemName"
+                            [(ngModel)]="model.itemName"
+                            #itemNameInput="ngModel">
+                        <span class="tooltip-content">
+                            Item Name is Required.
+                        </span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <label for="price"
+                        aria-haspopup="true"
+                        role="tooltip"
+                        class="tooltip tooltip-validation tooltip-md"
+                        [class.invalid]="itemPriceInput.invalid && (itemPriceInput.dirty || itemPriceInput.touched)">
+                        <input type="text" id="price" placeholder="Enter item price"
+                            required
+                            pattern="^[0-9]*$"
+                            name="price"
+                            (keydown)="validateNumberKeyPress($event)"
+                            [(ngModel)]="model.price"
+                            #itemPriceInput="ngModel">  
+                        <span class="tooltip-content" *ngIf="itemPriceInput.hasError('required')">
+                            Item Price is Required and must be a number
+                        </span>
+                    </label>
+                </div>
+                <div class="form-group">    
+                    <label for="itemCategory">Category</label>
+                    <div class="select">
+                        <select id="itemCategory" name="category" [(ngModel)]="model.category">
+                            <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" (click)="modalOpened = false">Cancel</button>
+                    <button type="submit" class="btn btn-success" [disabled]="!itemForm.form.valid">Submit</button>
+                </div>
+            </section>
+        </form>
+    </div>
+</clr-modal>
+<!-- End Modal -->
+
+<!-- Datagrid -->
+<clr-datagrid *ngIf="items" [(clrDgSelected)]="selected" [clDgRowSelection]="true">
+
+    <clr-dg-action-bar>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onDelete()" [disabled]="selected.length == 0">
+              <clr-icon shape="close"></clr-icon> Delete
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
+        </div>
+    </clr-dg-action-bar>
+
+  <clr-dg-column class="width1">Item ID</clr-dg-column>
+  <clr-dg-column>Item Name</clr-dg-column>
+  <clr-dg-column>Category</clr-dg-column>
+  <clr-dg-column>Price</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let item of items" [clrDgItem]="item">
+    <clr-dg-cell class="width1">{{item._id}}</clr-dg-cell>
+    <clr-dg-cell>{{item.itemName}}</clr-dg-cell>
+    <clr-dg-cell>{{item.category | uppercase }}</clr-dg-cell>
+    <clr-dg-cell>Rs. {{item.price}}</clr-dg-cell>
+  </clr-dg-row>
+  <clr-dg-footer>{{items.length}} items</clr-dg-footer>
+</clr-datagrid>
+<!-- End Datagrid -->

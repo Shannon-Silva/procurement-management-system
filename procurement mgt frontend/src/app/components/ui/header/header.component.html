@@ -1,0 +1,29 @@
+<header class="header-6">
+    <div class="branding">
+        <a href="..." class="nav-link">
+            <clr-icon shape="container-volume" class="is-inverse" ></clr-icon>
+            <span class="title">Procurement Management System</span>
+        </a>
+    </div>
+    <div class="header-nav">
+        <a class="nav-link nav-text" routerLink="/home"  routerLinkActive="active" >Dashboard</a>
+        <a class="nav-link nav-text" routerLink="/about"  routerLinkActive="active" >About</a>
+    </div>
+    <div class="header-actions">
+        <a href="javascript://" class="nav-link nav-icon">
+            <clr-icon shape="cog"></clr-icon>
+        </a>
+        <clr-dropdown [hidden]="!authService.isLoggedIn">
+            <button class="nav-icon" clrDropdownTrigger>
+                <clr-icon shape="user"></clr-icon>
+                <clr-icon shape="caret down"></clr-icon>
+            </button>
+            <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                <a routerLink="/home/account/profile" clrDropdownItem>Account</a>
+                <a routerLink="/home" clrDropdownItem>Link 2</a>
+                <a routerLink="/login" (click)="authService.logout()" clrDropdownItem>Log out</a>
+            </clr-dropdown-menu>
+        </clr-dropdown>
+    </div>
+</header>
+

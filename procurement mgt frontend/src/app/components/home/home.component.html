@@ -1,0 +1,58 @@
+<div class="content-container" style="height:100%">
+        <main class="content-area">
+          <router-outlet></router-outlet>
+        </main>
+        <nav class="sidenav">
+            <section class="sidenav-content">
+                <section class="nav-group collapsible">
+                    <input id="itemTitle" type="checkbox">
+                    <label for="itemTitle">Item Actions</label>
+                    <ul class="nav-list">
+                      <li><a class="nav-link" routerLink="/home/items/view"  routerLinkActive="active">View Item Database</a></li>  
+                      <li><a class="nav-link" routerLink="/home/items/add"  routerLinkActive="active">Add New Item</a></li>
+                    </ul>
+                </section>
+                <section class="nav-group collapsible">
+                    <input id="supplTitle" type="checkbox">
+                    <label for="supplTitle">Supplier Actions</label>
+                    <ul class="nav-list">
+                        <li><a class="nav-link" routerLink="/home/suppliers/view"  routerLinkActive="active">View Supplier Database</a></li>  
+                        <li><a class="nav-link" routerLink="/home/suppliers/add"  routerLinkActive="active">Add New Supplier</a></li>
+                    </ul>
+                </section>
+                <section class="nav-group collapsible">
+                    <input id="requestTitle" type="checkbox">
+                    <label for="requestTitle">Purchase Requests</label>
+                    <ul class="nav-list">
+                        <li><a class="nav-link" routerLink="/home/requests/view"  routerLinkActive="active">View Requests</a></li>
+                    </ul>
+                </section>
+                <section class="nav-group collapsible">
+                    <input id="purchaseTitle" type="checkbox">
+                    <label for="purchaseTitle">Purchase Orders</label>
+                    <ul class="nav-list">
+                        <li><a class="nav-link" routerLink="/home/orders/create"  routerLinkActive="active">Create PurchaseOrders</a></li>  
+                        <li><a class="nav-link" routerLink="/home/orders/view"  routerLinkActive="active">View PurchaseOrders</a></li>
+                    </ul>
+                </section>
+                <section class="nav-group collapsible">
+                    <input id="userAccount" type="checkbox">
+                    <label for="userAccount">User Accounts</label>
+                    <ul class="nav-list">  
+                        <li><a class="nav-link" routerLink="/home/account/profile"  routerLinkActive="active">My Profile</a></li>
+                        <li><a class="nav-link" routerLink="/home/users/view"  routerLinkActive="active">View Users</a></li>
+                        <li><a class="nav-link" routerLink="/home/users/register"  routerLinkActive="active">Register New User</a></li>
+                    </ul>
+                </section>
+                <section class="nav-group collapsible">
+                    <input id="Payment" type="checkbox">
+                    <label for="Payment">Payments</label>
+                    <ul class="nav-list">
+                      <li><a class="nav-link" routerLink="/home/grn/view"  routerLinkActive="active">View GRN</a></li>
+                    </ul>
+                </section>
+            </section>
+        </nav>
+    </div>
+
+

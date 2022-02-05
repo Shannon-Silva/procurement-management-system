@@ -1,0 +1,59 @@
+<h2 class="form-header">
+    Purchase Orders
+  </h2>
+  <!-- Loading spinner -->
+  <div style="text-align: center" *ngIf="!purchaseOrders">
+    <span style="display: inline-block" class="spinner spinner-md">
+        Loading...
+    </span>
+  </div>
+  <!-- End Loading spinner -->
+  
+  <!-- Datagrid -->
+  
+  <clr-datagrid *ngIf="purchaseOrders">
+  
+    <!-- <clr-dg-action-bar>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="openOrderWizard()" [disabled]="!selectedRequest">
+                <clr-icon shape="checkbox-list"></clr-icon> Create Order
+            </button>
+        </div>
+    </clr-dg-action-bar> -->
+  
+    <clr-dg-column class="width1">Order ID</clr-dg-column>
+    <clr-dg-column>Supplier</clr-dg-column>
+    <clr-dg-column>Order Status</clr-dg-column>
+    <clr-dg-column>Created on</clr-dg-column>
+    <clr-dg-column>Order Total</clr-dg-column>
+  
+    <clr-dg-row *clrDgItems="let order of purchaseOrders">
+        <clr-dg-cell class="width1">{{order._id}}</clr-dg-cell>
+        <clr-dg-cell>{{order.supplier.supplierName}}</clr-dg-cell>
+        <clr-dg-cell>{{order.status | uppercase }}</clr-dg-cell>
+        <clr-dg-cell>{{order.createdOn}}</clr-dg-cell>
+        <clr-dg-cell>{{order.totalPrice}}</clr-dg-cell>
+  
+        <clr-dg-row-detail *clrIfExpanded>
+            <table class="table table-compact" style="margin-left: -3%;">
+                <thead>
+                    <tr>
+                        <th class="left">Line Item</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lineItem of order.orderItems" >
+                        <td class="left">{{lineItem.item.itemName}}</td>
+                        <td>{{lineItem.quantity}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </clr-dg-row-detail>
+    </clr-dg-row>
+  
+    <clr-dg-footer>{{purchaseOrders.length}} orders</clr-dg-footer>
+  </clr-datagrid>
+  
+  <!-- End Datagrid -->
+
