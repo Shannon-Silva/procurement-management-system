@@ -1,0 +1,106 @@
+page-login {
+    @media all and (orientation:portrait) {
+      img {
+        width: 75%;
+        height: auto;
+        margin: 0 auto;
+      }
+      ion-row {
+        align-items: center;
+      }
+      .loginbox {
+        padding-top: 10% !important;
+        padding-bottom: 19% !important;
+        max-width: 85%;
+        align-self: center;
+        padding-left: 10%;
+      }
+      .logo{
+        padding-top:20% !important;
+      }
+      .login-button {
+        width: 75%;
+        margin: auto;
+        font-size: 0.9em;
+        padding: 0 10%;
+      }
+      .forgot-password{
+        padding-top: 5%;
+        width: auto;
+        margin: auto;
+        font-size: 0.9em;
+      }
+      ion-list {
+        margin: 0;
+      }
+      .view {
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+      .item.md {
+        padding: 0 0 0 0 !important;
+      }
+      ion-item.item-md.item-input.input-has-focus .item-inner,
+      ion-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
+      ion-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+      box-shadow: none;
+      }    
+      .passwordIcon{
+        zoom:0.8; 
+        padding-top: 35px;
+        z-index:1
+     }
+    }
+ 
+    @media all and (orientation:landscape) {
+      img {
+        width: 45%;
+        height: auto;
+        margin: 0 auto;
+      }
+      ion-row {
+        align-items: center;
+        text-align: center;
+      }
+      .loginbox {
+        padding-top: 0% !important;
+        padding-bottom: 10% !important;
+        padding-right: 16px !important;
+        max-width: 75%;
+        -webkit-align-self: center;
+        -ms-flex-item-align: center;
+        align-self: center;
+        margin: auto;   
+      }
+      .forgot-password{
+        padding-top: 5%;
+        width: auto;
+        margin: auto;
+        font-size: 0.9em;
+      }
+      .logo{
+        padding-top:5% !important;
+      }
+      .login-button {
+        width: 75%;
+        margin: auto;
+        font-size: 0.9em;
+      }
+      .view {
+        background-size: cover;
+        background-repeat: no-repeat;
+      }      
+      ion-item.item-md.item-input.input-has-focus .item-inner,
+      ion-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
+      ion-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+    //   border-bottom-color: #00c853 !important;
+      box-shadow: none;
+      }
+      .passwordIcon{
+        zoom:0.8; 
+        padding-top: 35px;
+        z-index:1
+     }
+    }
+  }
+  

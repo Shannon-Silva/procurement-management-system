@@ -1,0 +1,19 @@
+<ion-content class="view">
+  <ion-grid>
+    <form [formGroup]="form">
+      <ion-row class="loginbox">
+        <ion-item>
+          <ion-label class="login-lables" floating >Username</ion-label>
+          <ion-input #userName formControlName="username" type="email"  name="userName"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Password</ion-label>
+          <ion-input formControlName="password" name="password" [type]="passwordType" clearOnEdit="false"></ion-input>
+        </ion-item>
+      </ion-row>
+      <ion-row>
+        <button  class="login-button" ion-button (click)="login()">Login</button>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>
